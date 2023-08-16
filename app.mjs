@@ -1,7 +1,6 @@
 import express from "express";
 import "./loadEnvironment.mjs"
 import cors from "cors";
-import authorRouter from "./routes/author_route.mjs"
 import bookRouter from "./routes/book_route.mjs";
 import testingRouter from "./routes/testing_route.mjs";
 
