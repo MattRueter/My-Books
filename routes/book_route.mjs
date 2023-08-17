@@ -4,7 +4,15 @@ import { utils } from "../utils/utility_functions.mjs"
 
 const bookRouter = express.Router();
 const currentCollection = "books";
-const { queryDB, queryDB_sort, queryDB_post, queryDB_delete, documentExists } = queryType;
+const { 
+    queryDB, 
+    queryDB_sort, 
+    queryDB_post, 
+    queryDB_delete, 
+    queryDB_updateOne,
+    queryDB_updateMany,
+    documentExists 
+} = queryType;
 const { convertToBoolean } = utils;
 
 //READ: --------------------------------------------------------------------------------------------
@@ -30,6 +38,7 @@ bookRouter.get("/:filter/:criteria", async (req,res) =>{
     res.send(result).status(200);
 });
 
+
 //ADD a book.
 bookRouter.post("/addBook/:bookObject", async(req,res) => {
     const newBook = JSON.parse(req.params.bookObject)
@@ -44,6 +53,8 @@ bookRouter.post("/addBook/:bookObject", async(req,res) => {
     }
 });
 
+
+//DELETE a book.
 bookRouter.delete("/deleteBook/:bookTitle", async(req,res) =>{
     const book = { title : req.params.bookTitle };
     console.log(book)
@@ -55,6 +66,30 @@ bookRouter.delete("/deleteBook/:bookTitle", async(req,res) =>{
     }else{
         res.status(404).send("book not found.")
     }
+});
+
+
+//UPDATE a book.
+bookRouter.put("/updateOne/:bookTitle/:editedFieldsObject", async(req,res) => {
+    const book = {title : req.params.bookTitle };
+    const edit = JSON.parse(req.params.editedFieldsObject);
+
+    const result = await queryDB_updateOne(book, currentCollection, edit);
+
+
+    res.status(200).send(result);
+});
+
+
+//UPDATE several books
+bookRouter.put("/updateMany/:query/:editedFieldsObject", async(req,res) => {
+    const query = JSON.parse(req.params.query);
+    const edit = JSON.parse(req.params.editedFieldsObject);
+
+    const result = await queryDB_updateMany(query,currentCollection, edit)
+
+
+    res.status(200).send(result);
 });
 
 export default bookRouter;
