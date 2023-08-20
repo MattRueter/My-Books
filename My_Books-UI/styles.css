@@ -1,0 +1,111 @@
+body{
+    background-image:url("./books_ed-robertsonDUSTED.png");
+    background-size: cover;
+    /*background-color: #dde3ff;*/
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+main{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+h1,h2{
+    color:white;
+    background-color: #0000005c;
+}
+nav{
+    width:90%;
+    padding:1%;
+}
+#btnBox{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin:3%;
+    width:50%;
+}
+button{
+    border: 1px solid black;
+    background-color: #f3f5fd;
+    font-family: 'Courier New', Courier, monospace;
+    height:50px;
+    margin:2%;
+}
+button:hover{
+    background-color: #ffffff;
+}
+table{
+    display: none;
+    background-color: white;
+    border:8px solid #b4c0ece6;
+    border-spacing: 5px;
+}
+th,td{
+    border: 1px solid black;
+}
+#root{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    width:100%;
+
+}
+ol{
+    width:60%;
+}
+
+li{
+    background-color: #b4c0ece6;
+    display: flex;
+    flex-direction: column;
+    border-radius: 7px;
+    margin:2%;
+    padding:1%;
+}
+
+p{
+    margin:2%;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: x-large;
+    text-align: center;
+    text-decoration: underline;
+    text-decoration-style: double ;
+}
+.msg{
+    color:white;
+}
+
+#paginationBox{
+    display:flex;
+    width:100%;
+    justify-content: center;
+    align-items: center;
+}
+#paginationBox >*{
+    margin:1%;
+    width: 30px;
+    height:30px;
+    background-color: #d5deff;
+}
+#gearIcon{
+    color:white;
+    font-size: x-large;    
+}
+#menu{
+    background-color: white;
+    border-radius: 5px;;
+    position:absolute;
+    width: 175px;
+    height: 150px;
+    padding:1%;
+}
+#menu >*{
+    margin:4%;
+}
+#menu > *:hover{
+    border-radius: 3px;;
+    background-color: rgb(30, 45, 131);
+    color:white;
+}
