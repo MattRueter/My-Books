@@ -1,0 +1,50 @@
+body{
+    background-image: url("./bookStackReduced.jpg");
+    background-size: cover;
+    /*background-color: #dde3ff;*/
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+#loginForm{
+    border:1px solid black;
+    background-color: #b4c0ece6;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:center;
+    margin-top:10%;
+    height:300px;
+    width:300px;
+}
+#loginForm > #button{
+    margin:3%;
+    border:none;
+    background-color: white;
+    width:25%;
+    height:30px;
+}
+#loginForm > #button:hover{
+    background-color: rgb(212, 219, 228);
+}
+
+/*Media Queries*/
+@media screen and (max-width: 1000px){
+    body{
+        background-size: cover;
+    }
+}
+
+@media screen and (max-width: 500px){
+    body{
+        background-image:url("./bookStackReduced.jpg");
+        background-size: cover;
+    }
+}
+
+@media screen and (max-width: 500px){
+    body{
+        background-image:url("./bookStackcopy.jpg");
+        background-size: cover;
+    }
+}

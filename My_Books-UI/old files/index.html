@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>My Books</title>
+  <link rel="stylesheet" href="./CSS/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+        <nav>
+            <i onclick="toggleMenu()" class="fa fa-gear" id="gearIcon"></i>
+            <div id="menu" style= "display:none">
+                <div onclick="toggleDisplay()" id="menuTable">View as table:  &#10003 </div>
+                <div onclick="toggleDisplay()" id="menuCards">View as cards:</div>
+                <div onclick="logout()">Logout</div>
+            </div>
+        </nav>
+        
+        <main>
+            <h1>My books</h1>
+            <h2>View all books:</h2>    
+            <div id="btnBox">
+                <button onclick='getBooks("title")'>by title</button>
+                <button onclick='getBooks("author")'>by author</button>
+                <button onclick='getBooks("language")'>by language</button>
+                <button onclick='getBooks("have_read")'>by status</button>
+            </div>
+        </main>
+        
+        <div id ="root">
+            <ol id="result_list"></ol>
+            <div id="paginationBox"></div>
+            <table id ="result_table"></table>
+        </div>
+
+<script src="index.js" defer></script>
+</body>
+</html>

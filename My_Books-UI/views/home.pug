@@ -1,0 +1,40 @@
+html
+    include mixins/_table
+    include mixins/_navbar
+    head 
+        title My Books 
+        style   
+            include ./CSS/styles.css 
+        script 
+            include ../JS/index.js
+    body
+        +_navbar()
+        h1 My Books
+        h2 View all books by:
+        form(
+            id="btnBox"
+            action="/getAllBooks/sort"
+            method="GET"
+        )
+            input(
+                type="submit"
+                value="title"
+                name="sort"
+            ) 
+            input(
+                type="submit"
+                value="author"
+                name="sort"
+            )
+            input(
+                type="submit"
+                value="language"
+                naem="sort"
+            )
+            input(
+                type="submit"
+                value="status"
+                name="sort"
+            )
+    div(id="root")   
+        +_table()
