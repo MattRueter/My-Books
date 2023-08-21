@@ -1,0 +1,5 @@
+mixin _pagination
+    //- pagination object can be used here to determine: number of 
+    div(id="paginationBox")
+        - for (var x = 1; x <= pagination.totalPages; x++)
+            button(class="pageBtn", onclick="test()")= x

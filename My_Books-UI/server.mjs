@@ -1,33 +1,22 @@
 import express from "express";
 import cors from "cors";
 import fetch from "node-fetch";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-
+import { paginationFunctions } from "./utils/pagination.mjs";
 
 const PORT = 3000;
-//const __dirname = dirname(fileURLToPath(import.meta.url));
-//console.log(__dirname)
 const app = express();
-
-
+const { getTotalPages } = paginationFunctions;
 
 //------------------------------------------------------------------------------------------------
 //MIDDLEWARE:
 app.set('view engine', 'pug');
-
 app.use(cors());
 app.use(express.json());
 app.use(express.static("./"));
-/*
-app.use(
-    express.urlencoded({
-      extended: true,
-    })
-);
-*/
 
-app.get("/home", (req,res) =>{
+
+// ROUTES ----------------------------------------------------
+app.get("/", (req,res) =>{
     //just sending the html files for now.
     res.render("home", {books:[]})
 });
@@ -217,12 +206,16 @@ app.get("/getAllBooks/:bySortValue", async (req,res) =>{
                     },
     ]
     
+    //move pagination logic into fact funk or class which turns out needed object wherever it
+    // may be needed.
+    const itemsPerPage = 5
+    const pagination = {totalPages:getTotalPages(books, itemsPerPage), perPage:itemsPerPage }
 
     res.render("home",{
-        books: books
+        books: books,
+        pagination: pagination
     })
 
-    res.end()
 });
 
 
@@ -232,20 +225,6 @@ app.get("/getAllBooks/:bySortValue", async (req,res) =>{
 app.listen(PORT, () => {
     console.log(`Client UI listening on port ${PORT}`);
     
-});
-
-//rework with pug?
-app.post("/login", (req,res) =>{
-    console.log("from login");
-    console.log(req.body.password);
-    
-    if(req.body.password === "testingly"){
-        res.redirect("/home")
-        //res.sendFile(__dirname + "/index.html")
-    }else{
-        res.sendFile(__dirname + "/login.html")
-    };
-
 });
 
 

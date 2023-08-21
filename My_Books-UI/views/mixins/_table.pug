@@ -1,5 +1,7 @@
 mixin _table
+    include _pagination
     if books.length > 0
+        +_pagination()
         table(id="result_table")
             tbody
                 tr 
