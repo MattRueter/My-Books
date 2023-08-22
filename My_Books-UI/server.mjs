@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import fetch from "node-fetch";
 import { paginationFunctions } from "./utils/pagination.mjs";
+import books  from "./dummy_db.mjs";
 
 const PORT = 3000;
 const app = express();
@@ -9,184 +10,6 @@ const { getTotalPages, createPages } = paginationFunctions;
 const itemsPerPage = 5 // could be sent from UI based on preferences?
 let currentBooks;
 let booksCopy;
-const books =[
-    {
-    author: "Italo Calvino",
-    author_firstName: "Italo",
-    author_lastName: "Calvino",
-    genres: 
-    (2) ['Italian Literature', 'Short Stories'],
-    have_read: true, 
-    language: "English",
-    title: "Baron in the Trees", 
-    _id: "64dd6e812448e1d7a4c7dd8b"
-    },
-    {
-    author: "Italo Calvino",
-    author_firstName: "Italo",
-    author_lastName: "Balvino",
-    genres: 
-    (2) ['Italian Literature', 'Short Stories'],
-    have_read: true, 
-    language: "English",
-    title: "Invisible Cities", 
-    _id: "64dd6e812448e1d7a4c7dd8b"
-    },
-    {
-    author: "Italo Calvino",
-    author_firstName: "Italo",
-    author_lastName: "Stalinalvino",
-    genres: 
-    (2) ['Italian Literature', 'Short Stories'],
-    have_read: true, 
-    language: "English",
-    title: "If on a Winter's Night a Traveler.", 
-    _id: "64dd6e812448e1d7a4c7dd8b"
-    },
-    {
-    author: "Italo Calvino",
-    author_firstName: "Italo",
-    author_lastName: "Malvino",
-    genres: 
-    (2) ['Italian Literature', 'Short Stories'],
-    have_read: true, 
-    language: "English",
-    title: "Adam, One Afternoon", 
-    _id: "64dd6e812448e1d7a4c7dd8b"
-    },
-    {
-        author: "Italo Calvino",
-        author_firstName: "Italo",
-        author_lastName: "Calvino",
-        genres: 
-        (2) ['Italian Literature', 'Short Stories'],
-        have_read: true, 
-        language: "English",
-        title: "Baron in the Trees", 
-        _id: "64dd6e812448e1d7a4c7dd8b"
-        },
-        {
-        author: "Italo Calvino",
-        author_firstName: "Italo",
-        author_lastName: "Balvino",
-        genres: 
-        (2) ['Italian Literature', 'Short Stories'],
-        have_read: true, 
-        language: "English",
-        title: "Invisible Cities", 
-        _id: "64dd6e812448e1d7a4c7dd8b"
-        },
-        {
-        author: "Italo Calvino",
-        author_firstName: "Italo",
-        author_lastName: "Stalinalvino",
-        genres: 
-        (2) ['Italian Literature', 'Short Stories'],
-        have_read: true, 
-        language: "English",
-        title: "If on a Winter's Night a Traveler.", 
-        _id: "64dd6e812448e1d7a4c7dd8b"
-        },
-        {
-        author: "Italo Calvino",
-        author_firstName: "Italo",
-        author_lastName: "Malvino",
-        genres: 
-        (2) ['Italian Literature', 'Short Stories'],
-        have_read: true, 
-        language: "English",
-        title: "Adam, One Afternoon", 
-        _id: "64dd6e812448e1d7a4c7dd8b"
-        },
-        {
-            author: "Italo Calvino",
-            author_firstName: "Italo",
-            author_lastName: "Calvino",
-            genres: 
-            (2) ['Italian Literature', 'Short Stories'],
-            have_read: true, 
-            language: "English",
-            title: "Baron in the Trees", 
-            _id: "64dd6e812448e1d7a4c7dd8b"
-            },
-            {
-            author: "Italo Calvino",
-            author_firstName: "Italo",
-            author_lastName: "Balvino",
-            genres: 
-            (2) ['Italian Literature', 'Short Stories'],
-            have_read: true, 
-            language: "English",
-            title: "Invisible Cities", 
-            _id: "64dd6e812448e1d7a4c7dd8b"
-            },
-            {
-            author: "Italo Calvino",
-            author_firstName: "Italo",
-            author_lastName: "Stalinalvino",
-            genres: 
-            (2) ['Italian Literature', 'Short Stories'],
-            have_read: true, 
-            language: "English",
-            title: "If on a Winter's Night a Traveler.", 
-            _id: "64dd6e812448e1d7a4c7dd8b"
-            },
-            {
-            author: "Italo Calvino",
-            author_firstName: "Italo",
-            author_lastName: "Malvino",
-            genres: 
-            (2) ['Italian Literature', 'Short Stories'],
-            have_read: true, 
-            language: "English",
-            title: "Adam, One Afternoon", 
-            _id: "64dd6e812448e1d7a4c7dd8b"
-            },
-            {
-                author: "Italo Calvino",
-                author_firstName: "Italo",
-                author_lastName: "Calvino",
-                genres: 
-                (2) ['Italian Literature', 'Short Stories'],
-                have_read: true, 
-                language: "English",
-                title: "Baron in the Trees", 
-                _id: "64dd6e812448e1d7a4c7dd8b"
-                },
-                {
-                author: "Italo Calvino",
-                author_firstName: "Italo",
-                author_lastName: "Balvino",
-                genres: 
-                (2) ['Italian Literature', 'Short Stories'],
-                have_read: true, 
-                language: "English",
-                title: "Invisible Cities", 
-                _id: "64dd6e812448e1d7a4c7dd8b"
-                },
-                {
-                author: "Italo Calvino",
-                author_firstName: "Italo",
-                author_lastName: "Stalinalvino",
-                genres: 
-                (2) ['Italian Literature', 'Short Stories'],
-                have_read: true, 
-                language: "English",
-                title: "If on a Winter's Night a Traveler.", 
-                _id: "64dd6e812448e1d7a4c7dd8b"
-                },
-                {
-                author: "Italo Calvino",
-                author_firstName: "Italo",
-                author_lastName: "Malvino",
-                genres: 
-                (2) ['Italian Literature', 'Short Stories'],
-                have_read: true, 
-                language: "English",
-                title: "Adam, One Afternoon", 
-                _id: "64dd6e812448e1d7a4c7dd8b"
-                },
-]
 
 //------------------------------------------------------------------------------------------------
 //MIDDLEWARE:
@@ -194,7 +17,7 @@ app.set('view engine', 'pug');
 app.use(cors());
 app.use(express.json());
 app.use(express.static("./"));
-
+//app.use(express.urlencoded({ extended: true }));
 
 // ROUTES ----------------------------------------------------
 app.get("/", (req,res) =>{
@@ -205,16 +28,22 @@ app.get("/", (req,res) =>{
 
 
 app.get("/getAllBooks/:bySortValue", async (req,res) =>{
-    /*  1.Fetches books by sort criteria from DB.
+    /*  1.Fetches books by sort criteria from DB. Assigns this to global booksCopy variable for use in other routes.
         2.Paginates that data and sends only the first page to the front end.
         3.Assigns fetched data to global currentBooks. This is subsequently used on getPage routes avoids unecessary queries to DB.
         4. Creates objcet used by client for creating corrrect number of pages buttons.
     */
 
     // Task #1
-    const query = req.query.sort
-    //const response = await fetch(`http://localhost:5000/book/${queryValue}`);
-    //const books = await response.json();
+    let query = req.query.sort
+    // this is because of the value of the buttons on UI are also the "labels". Would be nice to get rid of this.
+    if(query=== "author"){
+        query = "author_lastName"
+    }else if(query === "status"){
+        query = "have_read"
+    };
+   // const response = await fetch(`http://localhost:5000/book/${query}`);
+   // const books = await response.json();
     booksCopy = books.map(page => page);
 
     // Task #2
@@ -240,6 +69,7 @@ app.get("/getPage/:page", (req,res) => {
     and used to send books : page[toNumber(req.query.page)]
     pagination object sent as well so that the correct number of page buttons persist (re-render really).
     */
+    
     // * Books and currentBooks may be problematic as global copies of fetched data due to potential size.
     const currentPage = Number(req.query.page) -1 
     const pagination = {totalPages:getTotalPages(booksCopy, itemsPerPage), perPage:itemsPerPage }

@@ -1,5 +1,14 @@
 mixin _pagination
     //- pagination object can be used here to determine: number of 
-    div(id="paginationBox")
+    form(
+        id="paginationBox"
+        action="/getPage/page"
+        method="GET"
+        )
         - for (var x = 1; x <= pagination.totalPages; x++)
-            button(class="pageBtn", onclick="test()")= x
+            input(
+                class="pageBtn"
+                type="submit"
+                value= x 
+                name= "page"
+            )
