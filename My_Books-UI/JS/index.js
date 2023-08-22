@@ -1,18 +1,10 @@
-console.log("I am connected to pug file");
-let page = 3;
 
-function openMenu(){
-    const menu = document.getElementById("menu");
-    if(menu.style.display === "block"){
-        menu.style.display = "none";
+// USED TO OPEN/CLOSE --- MENU / ADD a book form / DELETE a book form
+function toggle (elementId) {
+    const element = document.getElementById(elementId);
+    if(element.style.display === "block"){
+        element.style.display = "none";
     }else{
-        menu.style.display = "block";
+        element.style.display = "block";
     }
-};
-
-
-function test(){
-    console.log("Turn the page. Display items # through #");
-    // clearDisplay and create new li 's 
-    // but how to get data here?
 }

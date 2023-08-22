@@ -1,7 +1,11 @@
 mixin _navbar
+    include _deleteForm
+    include _addForm
     nav
-        button(id="menuBtn" onclick="openMenu()") ///
+        button(id="menuBtn" onclick=`toggle("menu")`) ///
         div(id="menu" style="display:none")
-            div(class="menuItem") Add a book
-            div(class="menuItem") Delete a book
+            div(class="menuItem" onclick=`toggle("addForm")`) Add a book
+            div(class="menuItem" onclick=`toggle("deleteForm")`) Delete a book
             div(class="menuItem") Logout 
+        +_deleteForm()
+        +_addForm()

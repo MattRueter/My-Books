@@ -19,6 +19,21 @@ nav{
     width:90%;
     padding:1%;
 }
+/*  FORMS USED FOR ADDING AND DELETING BOOKS: WITHIN NAV and OPENED in MENU ---------------*/
+.inputForms{
+    background-color: #b4c0ece6;
+    position: absolute;
+    width: 250px;
+    padding:1%;
+    margin-left:15%;
+    margin-top:5%;
+}
+.inputForms>*{
+    margin:2%;
+    height:40px;
+}
+
+/*---------------------------------------------------------------------------------------*/
 #btnBox{
     display:flex;
     justify-content: center;
@@ -32,6 +47,7 @@ nav{
     font-family: 'Courier New', Courier, monospace;
     height:50px;
     margin:2%;
+    text-align: center;
 }
 #btnBox > *:hover{
     background-color: #ffffff;
@@ -52,17 +68,6 @@ th,td{
     align-items: center;
     width:100%;
 
-}
-ol{
-    width:60%;
-}
-li{
-    background-color: #b4c0ece6;
-    display: flex;
-    flex-direction: column;
-    border-radius: 7px;
-    margin:2%;
-    padding:1%;
 }
 
 p{
@@ -88,10 +93,7 @@ p{
     height:30px;
     background-color: #d5deff;
 }
-fa-gear{
-    color:white;
-    font-size: x-large;    
-}
+
 #menu{
     background-color: white;
     border-radius: 5px;;
