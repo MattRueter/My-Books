@@ -1,0 +1,17 @@
+mixin _table
+    include _pagination
+    if books.length > 0
+        +_pagination()
+        table(id="result_table")
+            tbody
+                tr 
+                    th TITLE 
+                    th AUTHOR 
+                    th LANGUAGE 
+                    th STATUS  
+            each val in books
+                tr 
+                    td= val.title 
+                    td= val.author
+                    td= val.language
+                    td= val.have_read
