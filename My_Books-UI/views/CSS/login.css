@@ -5,6 +5,19 @@ body{
     flex-direction: column;
     align-items: center;
 }
+.showMessage{
+    border:1px solid black;
+    background-color: white;
+    padding:1%;
+    width:40%;
+}
+.hideMessage{
+    border:none;
+    padding:1%;
+    width:40%;
+    height: 10px;
+}
+
 #loginForm{
     border:1px solid black;
     background-color: #b4c0ece6;
@@ -12,7 +25,6 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content:center;
-    margin-top:10%;
     height:300px;
     width:50%;
 }

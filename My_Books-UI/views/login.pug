@@ -6,6 +6,7 @@ html
         script 
             include ../JS/index.js
     body 
+        p(class= messageDisplay)= errorMessage
         form(
             id="loginForm"
             action="/login"

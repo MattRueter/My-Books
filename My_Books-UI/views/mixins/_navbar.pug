@@ -6,6 +6,10 @@ mixin _navbar
         div(id="menu" style="display:none")
             div(class="menuItem" onclick=`toggle("addForm")`) Add a book
             div(class="menuItem" onclick=`toggle("deleteForm")`) Delete a book
-            div(class="menuItem") Logout 
+            form(
+                action="/login/logout"
+                method="GET"
+            )
+                input(class="button" type="submit" value="Logout")
         +_deleteForm()
         +_addForm()

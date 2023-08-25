@@ -1,7 +1,6 @@
 body{
     background-image:url("/views/CSS/books_ed-robertsonDUSTED.png");
     background-size: cover;
-    /*background-color: #dde3ff;*/
     display:flex;
     flex-direction: column;
     align-items: center;
@@ -70,17 +69,6 @@ th,td{
 
 }
 
-p{
-    margin:2%;
-    font-family: 'Times New Roman', Times, serif;
-    font-size: x-large;
-    text-align: center;
-    text-decoration: underline;
-}
-.msg{
-    color:white;
-}
-
 #paginationBox{
     display:flex;
     width:100%;
@@ -93,7 +81,7 @@ p{
     height:30px;
     background-color: #d5deff;
 }
-
+/*Drop down menu: Includes: Add item toggle, Delete Item toggle, and logout button*/
 #menu{
     background-color: white;
     border-radius: 5px;;
@@ -104,6 +92,17 @@ p{
 }
 #menu >*{
     margin:4%;
+}
+#menu >form{
+    margin-top:35%;
+}
+#menu >form >.button{
+    border:none;
+}
+#menu >form >.button:hover{
+    border-radius: 3px;;
+    background-color: rgb(30, 45, 131);
+    color:white;
 }
 .menuItem:hover{
     border-radius: 3px;;
