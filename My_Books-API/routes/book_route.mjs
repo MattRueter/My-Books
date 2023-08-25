@@ -16,8 +16,7 @@ const {
 const { convertToBoolean } = utils;
 
 //READ: --------------------------------------------------------------------------------------------
-
-//get ALL books and sort according to sorting preference.
+//ADMIN //get ALL books and sort according to sorting preference.
 bookRouter.get("/:sortby", async (req,res) => {
     const sort = { [req.params.sortby] : 1 }
     const query = {}
@@ -26,8 +25,7 @@ bookRouter.get("/:sortby", async (req,res) => {
     res.send(result).status(200);
 
 });
-
-// get SOME books based on filter criteria
+//ADMIN  // get SOME books based on filter criteria
 bookRouter.get("/:filter/:criteria", async (req,res) =>{
     //boolean check
     req.params.criteria = convertToBoolean(req.params.criteria)
@@ -35,10 +33,21 @@ bookRouter.get("/:filter/:criteria", async (req,res) =>{
     const filter ={ [req.params.filter] : req.params.criteria}
     const result = await queryDB(filter, currentCollection)
 
+    res.status(200).send(result);
+});
+
+//MAKE PROTECTED ROUTES. ONLY ACCESSIBLE AFTER AUTH.----------------------------------------
+//READ
+//MY BOOKS USERS //get ALL books of a given USER and SORT according to sorting preference.
+bookRouter.get("/usersBooks/:userid/:sortby", async (req,res) => {
+    const sort = { [req.params.sortby] : 1 }
+    const userid = req.params.userid;
+    const query = { owner: userid }
+    const result = await queryDB_sort(query, currentCollection, sort);
     res.send(result).status(200);
 });
 
-
+//WRITE
 //ADD a book.
 bookRouter.post("/addBook/:bookObject", async(req,res) => {
     const newBook = JSON.parse(req.params.bookObject)
@@ -55,13 +64,17 @@ bookRouter.post("/addBook/:bookObject", async(req,res) => {
 
 
 //DELETE a book.
-bookRouter.delete("/deleteBook/:bookTitle", async(req,res) =>{
-    const book = { title : req.params.bookTitle };
-    console.log(book)
-    const exists = await documentExists(book,currentCollection);
+bookRouter.delete("/deleteBook/:userid/:bookTitle", async(req,res) =>{
+    const book =  req.params.bookTitle ;
+    const owner = req.params.userid;
+    const query = {owner:owner, title:book};
+    console.log(query)
+
+    const exists = await documentExists(query,currentCollection);
     console.log(exists)
+    
     if(exists){
-        const result = await queryDB_delete(book,currentCollection);
+        const result = await queryDB_delete(query,currentCollection);
         res.status(200).send(result)
     }else{
         res.status(404).send("book not found.")
