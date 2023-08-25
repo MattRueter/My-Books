@@ -1,0 +1,111 @@
+body{
+    background-image:url("/views/CSS/books_ed-robertsonDUSTED.png");
+    background-size: cover;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+main{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+h1,h2{
+    color:white;
+    background-color: #0000005c;
+}
+nav{
+    width:90%;
+    padding:1%;
+}
+/*  FORMS USED FOR ADDING AND DELETING BOOKS: WITHIN NAV and OPENED in MENU ---------------*/
+.inputForms{
+    background-color: #b4c0ece6;
+    position: absolute;
+    width: 250px;
+    padding:1%;
+    margin-left:15%;
+    margin-top:5%;
+}
+.inputForms>*{
+    margin:2%;
+    height:40px;
+}
+
+/*---------------------------------------------------------------------------------------*/
+#btnBox{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin:3%;
+    width:50%;
+}
+#btnBox >*{
+    border: 1px solid black;
+    background-color: #f3f5fd;
+    font-family: 'Courier New', Courier, monospace;
+    height:50px;
+    margin:2%;
+    text-align: center;
+}
+#btnBox > *:hover{
+    background-color: #ffffff;
+}
+
+table{
+    display: block;
+    background-color: white;
+    border:8px solid #b4c0ece6;
+    border-spacing: 5px;
+}
+th,td{
+    border: 1px solid black;
+}
+#root{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    width:100%;
+
+}
+
+#paginationBox{
+    display:flex;
+    width:100%;
+    justify-content: center;
+    align-items: center;
+}
+#paginationBox >*{
+    margin:1%;
+    width: 30px;
+    height:30px;
+    background-color: #d5deff;
+}
+/*Drop down menu: Includes: Add item toggle, Delete Item toggle, and logout button*/
+#menu{
+    background-color: white;
+    border-radius: 5px;;
+    position:absolute;
+    width: 175px;
+    height: 150px;
+    padding:1%;
+}
+#menu >*{
+    margin:4%;
+}
+#menu >form{
+    margin-top:35%;
+}
+#menu >form >.button{
+    border:none;
+}
+#menu >form >.button:hover{
+    border-radius: 3px;;
+    background-color: rgb(30, 45, 131);
+    color:white;
+}
+.menuItem:hover{
+    border-radius: 3px;;
+    background-color: rgb(30, 45, 131);
+    color:white;
+}

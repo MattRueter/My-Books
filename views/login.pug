@@ -1,0 +1,38 @@
+html 
+    head 
+        title My Books login 
+        style   
+            include ./CSS/login.css 
+        script 
+            include ../JS/index.js
+    body 
+        p(class= messageDisplay)= errorMessage
+        form(
+            id="loginForm"
+            action="/login"
+            method="POST"
+            )   
+            input(
+                id="nameField"
+                class="textField"   
+                type="text"
+                name="username"
+                )
+            label user name
+            input(
+                id="passwordField"
+                class="textField"   
+                type="password"
+                name="password"
+                )
+            label password
+            input(
+                class="button"
+                type="submit"
+                value="Login"
+                )
+            input(
+                class="button"
+                type="submit"
+                value="Sign Up"
+                )

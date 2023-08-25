@@ -1,0 +1,15 @@
+mixin _navbar
+    include _deleteForm
+    include _addForm
+    nav
+        button(id="menuBtn" onclick=`toggle("menu")`) ///
+        div(id="menu" style="display:none")
+            div(class="menuItem" onclick=`toggle("addForm")`) Add a book
+            div(class="menuItem" onclick=`toggle("deleteForm")`) Delete a book
+            form(
+                action="/login/logout"
+                method="GET"
+            )
+                input(class="button" type="submit" value="Logout")
+        +_deleteForm()
+        +_addForm()

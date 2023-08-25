@@ -1,0 +1,20 @@
+mixin _table
+    include _pagination
+    if books.length > 0
+        +_pagination()
+        table(id="result_table")
+            tbody
+                tr 
+                    th TITLE 
+                    th AUTHOR 
+                    th LANGUAGE 
+                    th STATUS  
+            each val in books
+                tr 
+                    td= val.title 
+                    td= `${val.author_firstName} ${val.author_lastName}`
+                    td= val.language
+                    if val.have_read === false
+                        td= "haven't read" 
+                    else if val.have_read === true
+                        td= "read" 
