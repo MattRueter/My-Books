@@ -2,12 +2,12 @@ import express from "express";
 import fetch from "node-fetch";
 import { paginationFunctions } from "../utils/pagination.mjs";
 import { utilityFunctions } from "../utils/utilityFunctions.mjs";
-import books  from "../dummy_db.mjs";
+
 
 const bookRouter = express.Router();
 const { getTotalPages, createPages } = paginationFunctions;
 const { checkQueryName } = utilityFunctions;
-let online = true;
+
 
 // currentView global object----------------------------------------------------------------------------
     let currentView = {pages:0, perPage: 5, books:null, sortBy:"title", currentPage:1, }
@@ -22,32 +22,19 @@ bookRouter.get("/getAllBooks/:bySortValue", checkQueryName, async (req,res) =>{
         1.Fetches books by sort criteria from DB. Assigns this to global booksCopy variable for use in other routes.
         2.Paginates that data and sends only the first page to the front end.
         STATE.
-        3.Assigns paged fetched data to global currentView.books.
-        4.Assigns total number of pages to global currentView.pages.
+        Assigns values to global STATE variable 'currentView'.
     */
-    
-    let usersBooks //defined here as still using online / offline toggling.
-    
+        
     // Task #1
     const sortBy = req.query.sort;
+    const userid = req.session.passport.user.id
+    const response = await fetch(`http://localhost:5000/book/usersBooks/${userid}/${sortBy}`);
+    const usersBooks = await response.json();
     
-    if(online){
-        console.log("online.")
-        const userid = req.session.passport.user.id
-        const response = await fetch(`http://localhost:5000/book/usersBooks/${userid}/${sortBy}`);
-        usersBooks = await response.json();
-    }else{
-        console.log("offline.")
-        usersBooks = books;
-    }
     
-    // update currentView Obj with QUERY.
+    //STATE: Update currentView Obj:
     currentView.sortBy = sortBy
-
-    // update currentView Obj with the TOTAL # OF PAGES in the collection.
     currentView.pages = getTotalPages(usersBooks,currentView.perPage);
-
-    // update currentView Obj with "PAGED" ARRRAY of the collection.
     currentView.books = createPages(currentView.pages, currentView.perPage, usersBooks);
   
     res.render("home",{
@@ -64,7 +51,10 @@ bookRouter.get("/:page", (req,res) => {
     and used to send books : page[toNumber(req.query.page)]
     pagination object sent as well so that the correct number of page buttons persist (re-render really).
     */
+    
+    // STATE: Update currentView obj:
     currentView.currentPage = Number(req.query.page) -1
+    
     res.render("home", {
         books : currentView.books[currentView.currentPage],
         pagination : {totalPages: currentView.pages}
@@ -75,16 +65,22 @@ bookRouter.get("/:page", (req,res) => {
 bookRouter.post("/delete", async(req,res) =>{
     const userid = req.session.passport.user.id
     const title = req.body.title;
-    const query = {id:userid, title:title};
 
-    if(online){
-        const response = await fetch(`http://localhost:5000/book/deleteBook/${userid}/${title}`)
-        const deletedBook = await response.json()
-        //res.render("home",{}) deconstruct currentView State variable to display the same page and sort criteria.
+    const response = await fetch(`http://localhost:5000/book/deleteBook/${userid}/${title}`, {method:"DELETE"});
+    const deletedBook = await response.json()  
+    
+
+    if(deletedBook==="Book not found."){
+        res.end()
+    }else{
+        res.render("home",{
+            books : currentView.books[currentView.currentPage],
+            pagination : {totalPages: currentView.pages}
+        });         
     }
 
-    res.send(query);
 });
+
 bookRouter.post("/addBook", async(req,res) =>{
     const userid = req.session.passport.user.id
     const book ={
@@ -94,10 +90,13 @@ bookRouter.post("/addBook", async(req,res) =>{
         language: req.body.language,
         owner: userid
     }
-    //const response = await fetch();
-    //const newBook = await response.json();
+    //Think up a better way of creating this.
+    const bookString = `{"title" : "${book.title}" , "author_lastName" : "${book.author_lastName}" , "author_firstName" : "${book.author_firstName}" ,"language" : "${book.language}" , "owner" : "${book.owner}" }`
+    
+    const response = await fetch(`http://localhost:5000/book/addBook/${bookString}`, {method:"POST"} );
+    const newBook = await response.json();
 
-    res.send(book)
+    res.send(newBook)
 });
 
 export default bookRouter;

@@ -26,6 +26,7 @@ loginRouter.get("/error", (req,res) =>{
 loginRouter.post("/",
     passport.authenticate("local", {failureRedirect: "/login/error"}),
     (req, res) =>{
+        console.log(req.session.passport.user)
         res.redirect("/home");
     }
 );
