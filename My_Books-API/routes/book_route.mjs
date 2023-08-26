@@ -55,7 +55,8 @@ bookRouter.post("/addBook/:bookObject", async(req,res) => {
 
 
     if(alreadyExists){
-        res.status(409).send("Already exists")
+        const errorMsg = JSON.stringify("Already exists");
+        res.status(409).send(errorMsg)
     }else{
         const result = await queryDB_post(newBook, currentCollection)
         res.status(201).send(result);
@@ -71,13 +72,14 @@ bookRouter.delete("/deleteBook/:userid/:bookTitle", async(req,res) =>{
     console.log(query)
 
     const exists = await documentExists(query,currentCollection);
-    console.log(exists)
+    console.log(`Does book exist? : ${exists}`);
     
     if(exists){
         const result = await queryDB_delete(query,currentCollection);
-        res.status(200).send(result)
+        res.send(result)
     }else{
-        res.status(404).send("book not found.")
+        const errorMsg = JSON.stringify("Book not found.");
+        res.send(errorMsg);
     }
 });
 
