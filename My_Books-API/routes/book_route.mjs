@@ -21,7 +21,7 @@ bookRouter.get("/:sortby", async (req,res) => {
     const sort = { [req.params.sortby] : 1 }
     const query = {}
     const result = await queryDB_sort(query, currentCollection, sort);
-    console.log(result)
+
     res.send(result).status(200);
 
 });
@@ -36,7 +36,7 @@ bookRouter.get("/:filter/:criteria", async (req,res) =>{
     res.status(200).send(result);
 });
 
-//MAKE PROTECTED ROUTES. ONLY ACCESSIBLE AFTER AUTH.----------------------------------------
+
 //READ
 //MY BOOKS USERS //get ALL books of a given USER and SORT according to sorting preference.
 bookRouter.get("/usersBooks/:userid/:sortby", async (req,res) => {
@@ -69,10 +69,9 @@ bookRouter.delete("/deleteBook/:userid/:bookTitle", async(req,res) =>{
     const book =  req.params.bookTitle ;
     const owner = req.params.userid;
     const query = {owner:owner, title:book};
-    console.log(query)
 
     const exists = await documentExists(query,currentCollection);
-    console.log(`Does book exist? : ${exists}`);
+    
     
     if(exists){
         const result = await queryDB_delete(query,currentCollection);

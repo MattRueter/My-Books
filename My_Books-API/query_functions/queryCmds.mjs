@@ -7,6 +7,7 @@ async function queryDB (query, currentCollection){
 
     return result
 }
+
 //FIND and SORT:
 async function queryDB_sort(query, currentCollection, sortCriteria){
     let collection = await db.collection(currentCollection);
@@ -15,7 +16,7 @@ async function queryDB_sort(query, currentCollection, sortCriteria){
     return result
 }
 
-// ADD a book
+// ADD a book or user
 async function queryDB_post (query, currentCollection){
     const collection = await db.collection(currentCollection);
     const result = await collection.insertOne(query);

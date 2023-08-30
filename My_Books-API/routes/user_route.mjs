@@ -3,9 +3,10 @@ import { queryType } from "../query_functions/queryCmds.mjs";
 
 const userRouter = express.Router();
 const currentCollection = "users";
-const { queryDB} = queryType;
+const { queryDB, queryDB_post} = queryType;
 
-//READ
+
+//READ  
 userRouter.get("/getUser/:username", async (req,res) =>{
 
     const username = req.params.username;
@@ -15,6 +16,12 @@ userRouter.get("/getUser/:username", async (req,res) =>{
     res.send(result);
 });
 
-
+//WRITE
+userRouter.post("/adduser/:newuser", async (req,res) => {
+    const user = JSON.parse(req.params.newuser);
+    const result = await queryDB_post(user,"users");
+ 
+    res.send(result);
+});
 
 export default userRouter;
