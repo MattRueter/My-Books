@@ -2,19 +2,23 @@ import express from "express";
 import fetch from "node-fetch";
 import morgan from "morgan";
 import cors from "cors";
+import "./loadEnvironment.mjs";
 
 import session from "express-session";
 import passport  from "passport";
-import { authMethods } from "./routes/auth.mjs";
+import { authMethods } from "./auth/auth.mjs";
 
 import loginRouter from "./routes/login_route.mjs";
 import bookRouter from "./routes/books_route.mjs";
 
 
-const PORT = 3000;
+const PORT = process.env.PORT;
+const secret= process.env.SECRET
+
 const app = express();
 const {checkIfAuthenticated } = authMethods;
 const store = new session.MemoryStore();
+
 
 //------------------------------------------------------------------------------------------------
 //MIDDLEWARE:
@@ -28,7 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 //SESSION
 app.use(
     session({
-        secret:"M33fx175H", //hardcoded
+        secret: secret, //hardcoded
         //cookie: {maxAge: 172800000, secure: true, sameSite: "none"}, 
         //cookie seems to conflict with serialization/deserialization.
         resave:false,
@@ -36,6 +40,7 @@ app.use(
         store,
     })
 );
+
 //PASSPORT -----------------------------------------------------------------
 app.use(passport.initialize());
 app.use(passport.session());
@@ -50,7 +55,7 @@ app.get("/", (req,res) =>{
     res.redirect("/login")
 });
 app.get("/home", checkIfAuthenticated, (req,res) =>{
-        res.render("home", {books:[]})
+        res.render("home", {books: []})
 });
 
 

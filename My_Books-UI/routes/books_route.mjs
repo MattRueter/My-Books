@@ -5,12 +5,13 @@ import { utilityFunctions } from "../utils/utilityFunctions.mjs";
 
 
 const bookRouter = express.Router();
+const apikey = process.env.API_KEY;
 const { getTotalPages, createPages } = paginationFunctions;
 const { checkQueryName } = utilityFunctions;
 
-
+// ,{headers:{Authorization: apikey}}
 // currentView global object----------------------------------------------------------------------------
-    let currentView = {pages:0, perPage: 5, books:null, sortBy:"title", currentPage:1, }
+    let currentView = {pages:0, perPage: 5, books:[], sortBy:"title", currentPage:1, }
     // currentView is being used to store copies of fetched data. 
     //It keeps current State to avoid unecessary queries to DB
   
@@ -28,7 +29,7 @@ bookRouter.get("/getAllBooks/:bySortValue", checkQueryName, async (req,res) =>{
     // Task #1
     const sortBy = req.query.sort;
     const userid = req.session.passport.user.id
-    const response = await fetch(`http://localhost:5000/book/usersBooks/${userid}/${sortBy}`);
+    const response = await fetch(`http://localhost:5000/book/usersBooks/${userid}/${sortBy}`,{headers:{Authorization: apikey}});
     const usersBooks = await response.json();
     
     
@@ -66,15 +67,14 @@ bookRouter.post("/delete", async(req,res) =>{
     const userid = req.session.passport.user.id
     const title = req.body.title;
 
-    const response = await fetch(`http://localhost:5000/book/deleteBook/${userid}/${title}`, {method:"DELETE"});
+    const response = await fetch(`http://localhost:5000/book/deleteBook/${userid}/${title}`, {method:"DELETE", headers:{Authorization: apikey}});
     const deletedBook = await response.json()  
     
-
     if(deletedBook==="Book not found."){
         res.end()
     }else{
         res.render("home",{
-            books : currentView.books[currentView.currentPage],
+            books : [],
             pagination : {totalPages: currentView.pages}
         });         
     }
@@ -93,10 +93,13 @@ bookRouter.post("/addBook", async(req,res) =>{
     //Think up a better way of creating this.
     const bookString = `{"title" : "${book.title}" , "author_lastName" : "${book.author_lastName}" , "author_firstName" : "${book.author_firstName}" ,"language" : "${book.language}" , "owner" : "${book.owner}" }`
     
-    const response = await fetch(`http://localhost:5000/book/addBook/${bookString}`, {method:"POST"} );
+    const response = await fetch(`http://localhost:5000/book/addBook/${bookString}`, {method:"POST", headers:{Authorization: apikey}} );
     const newBook = await response.json();
 
-    res.send(newBook)
+    res.render("home",{
+        books : [],
+        pagination : {totalPages: currentView.pages}
+    })
 });
 
 export default bookRouter;

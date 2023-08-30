@@ -1,10 +1,5 @@
 import bcrypt from "bcrypt";
 
-const udb = [
-    {id:555, username: "ted", password:"$2b$10$mYRMSXCrJUBMjrpKkoyVDeo.q4CP8378vET5eJDYMWnUDFwjQzJNy"},
-    {id:777, username: "jill", password: "funk"},
-];
-
 const hashPassword = async(password, saltRounds)=>{
     try{
         const salt = await bcrypt.genSalt(saltRounds);        

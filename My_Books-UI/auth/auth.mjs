@@ -6,6 +6,7 @@ import { hashsingMethods } from "./hash.mjs";
 
 const LocalStrategy = Strategy;
 const { comparePassword } = hashsingMethods;
+const apikey = process.env.API_KEY;
 
 //Serialization----------------------------------------------------------------
 passport.serializeUser((user, done) =>{
@@ -24,9 +25,8 @@ passport.deserializeUser((user, done) =>{
 function usePassportStrategy (req,res,next){
     passport.use(
         new LocalStrategy(async function(username, password, cb) {
-            //const user = users.filter(index => index.username == username);
             
-            const response = await fetch(`http://localhost:5000/user/getUser/${username}`)
+            const response = await fetch(`http://localhost:5000/user/getUser/${username}`,{headers:{Authorization: apikey}})
             const user = await response.json()
             
             //checks and returns if no user in DB
