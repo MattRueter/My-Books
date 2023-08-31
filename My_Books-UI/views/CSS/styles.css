@@ -18,6 +18,11 @@ nav{
     width:90%;
     padding:1%;
 }
+p{
+    color:white;
+    background-color: #db7093a1;
+    padding:2%;
+}
 /*  FORMS USED FOR ADDING AND DELETING BOOKS: WITHIN NAV and OPENED in MENU ---------------*/
 .inputForms{
     background-color: #b4c0ece6;

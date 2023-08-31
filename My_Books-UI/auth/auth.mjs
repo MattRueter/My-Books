@@ -8,6 +8,7 @@ const LocalStrategy = Strategy;
 const { comparePassword } = hashsingMethods;
 const apikey = process.env.API_KEY;
 
+
 //Serialization----------------------------------------------------------------
 passport.serializeUser((user, done) =>{
     done(null, {id:user._id, username:user.username})
@@ -26,7 +27,7 @@ function usePassportStrategy (req,res,next){
     passport.use(
         new LocalStrategy(async function(username, password, cb) {
             
-            const response = await fetch(`http://localhost:5000/user/getUser/${username}`,{headers:{Authorization: apikey}})
+            const response = await fetch(`https://my-books-api-2v9z.onrender.com/user/getUser/${username}`,{headers:{Authorization: apikey}})
             const user = await response.json()
             
             //checks and returns if no user in DB
@@ -51,7 +52,7 @@ function usePassportStrategy (req,res,next){
 function checkIfAuthenticated(req,res, next) {
     console.log(req.isAuthenticated());
     if(!req.isAuthenticated()){
-        res.status(404).send("You're not allowed in!")
+        res.status(404).send("Not authorized!")
     }
     next()
 }

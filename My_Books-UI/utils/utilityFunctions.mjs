@@ -16,7 +16,7 @@ function sanitizeButtonInput(req, res, next){
     // find a better defense (using key or index for example)
     const acceptableInputs = ["title", "author_lastName", "language","have_read"];
     const test = acceptableInputs.findIndex((element) => element === req.query.sort);
-    console.log(test);
+
     if(test < 0){
         res.send("button has changed")
     }else{
@@ -38,4 +38,16 @@ function sanitizeInput(req,res,next){
 
     next()
 }
-export const utilityFunctions ={ checkQueryName, sanitizeInput, sanitizeButtonInput };
+
+async function checkIfUserExits (req,res, next){
+    const username = req.body.username;
+    const response = await fetch(`https://my-books-api-2v9z.onrender.com/user/getUser/${username}`,{headers:{Authorization: apikey}});
+    const data = await response.json();
+
+    if(data.length > 0){
+        res.status(403).send("Choose a different user name.")
+    }else{
+        next()
+    }
+}
+export const utilityFunctions ={ checkQueryName, sanitizeInput, sanitizeButtonInput, checkIfUserExits };

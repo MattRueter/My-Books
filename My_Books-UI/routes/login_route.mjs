@@ -8,7 +8,7 @@ const loginRouter = express.Router();
 const apikey = process.env.API_KEY;
 const { usePassportStrategy } = authMethods;
 const { hashPassword } = hashsingMethods;
-const { sanitizeInput } = utilityFunctions;
+const { sanitizeInput, checkIfUserExits } = utilityFunctions;
 
 //MiddleWare-----------------------------
 loginRouter.use(usePassportStrategy);
@@ -36,7 +36,7 @@ loginRouter.post("/",
 );
 
 //SIGNING UP:
-loginRouter.post("/signup", sanitizeInput, async(req,res) =>{
+loginRouter.post("/signup", sanitizeInput, checkIfUserExits, async(req,res) =>{
     const newUser= req.body.username;
     let newPassword = req.body.password;
 

@@ -12,7 +12,8 @@ const { checkQueryName, sanitizeInput, sanitizeButtonInput } = utilityFunctions;
 // currentView global object----------------------------------------------------------------------------
     let currentView = {pages:0, perPage: 10, books:[], sortBy:"title", currentPage:1, }
     // currentView is being used to store copies of fetched data. 
-    //It keeps current State to avoid unecessary queries to DB
+    // It keeps current State to avoid unecessary queries to DB
+    // Could also attach this to req once user logged in.
   
 
 
@@ -24,18 +25,19 @@ bookRouter.get("/getAllBooks/:bySortValue", checkQueryName, sanitizeButtonInput,
         STATE.
         Assigns values to global STATE variable 'currentView'.
     */
-
-        // Task #1
+        const username = req.session.passport.user.username;
+        // Create query:
         const sortBy = req.query.sort;
         const userid = req.session.passport.user.id
         const response = await fetch(`https://my-books-api-2v9z.onrender.com/book/usersBooks/${userid}/${sortBy}`,{headers:{Authorization: apikey}});
         const usersBooks = await response.json();
-        console.log(usersBooks)
         
-        //STATE: Update currentView Obj:
+        // STATE: Update currentView Obj:
         currentView.sortBy = sortBy
         currentView.pages = getTotalPages(usersBooks,currentView.perPage);
         currentView.books = createPages(currentView.pages, currentView.perPage, usersBooks);
+        
+        // RENDER:
         if(usersBooks.length >0){
             res.render("home",{
                 books : currentView.books[0],
@@ -43,7 +45,8 @@ bookRouter.get("/getAllBooks/:bySortValue", checkQueryName, sanitizeButtonInput,
             })
         }else{
             res.render("home",{
-                books: []   
+                books: [],
+                currentUser: username
             })
         }; 
 });
@@ -56,18 +59,21 @@ bookRouter.get("/:page", (req,res) => {
     and used to send books : page[toNumber(req.query.page)]
     pagination object sent as well so that the correct number of page buttons persist (re-render really).
     */
+    const username = req.session.passport.user.username;
     
     // STATE: Update currentView obj:
     currentView.currentPage = Number(req.query.page) -1
     
     res.render("home", {
         books : currentView.books[currentView.currentPage],
-        pagination : {totalPages: currentView.pages}
+        pagination : {totalPages: currentView.pages},
+        currentUser: username
     })
 });
 
 //---------------------- DELETE --------------------
 bookRouter.post("/delete", sanitizeInput,async(req,res) =>{
+    const username = req.session.passport.user.username
     const userid = req.session.passport.user.id
     const title = req.body.title;
 
@@ -79,13 +85,15 @@ bookRouter.post("/delete", sanitizeInput,async(req,res) =>{
     }else{
         res.render("home",{
             books : [],
-            pagination : {totalPages: currentView.pages}
+            pagination : {totalPages: currentView.pages},
+            currentUser: username
         });         
     }
 
 });
 
 bookRouter.post("/addBook", sanitizeInput,async(req,res) =>{
+    const username = req.session.passport.user.username
     const userid = req.session.passport.user.id
     const book ={
         title: req.body.title,
@@ -101,7 +109,8 @@ bookRouter.post("/addBook", sanitizeInput,async(req,res) =>{
 
     res.render("home",{
         books : [],
-        pagination : {totalPages: currentView.pages}
+        pagination : {totalPages: currentView.pages},
+        currentUser: username
     })
 });
 

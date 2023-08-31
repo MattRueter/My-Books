@@ -4,18 +4,15 @@ import morgan from "morgan";
 import cors from "cors";
 import helmet from "helmet";
 import "./loadEnvironment.mjs";
-
 import session from "express-session";
 import passport  from "passport";
 import { authMethods } from "./auth/auth.mjs";
-
 import loginRouter from "./routes/login_route.mjs";
 import bookRouter from "./routes/books_route.mjs";
 
 
 const PORT = process.env.PORT;
 const secret= process.env.SECRET
-
 const app = express();
 const {checkIfAuthenticated } = authMethods;
 const store = new session.MemoryStore();
@@ -42,8 +39,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
     session({
         secret: secret, //hardcoded
-        //cookie: {maxAge: 172800000, secure: true, sameSite: "none"}, 
-        //cookie seems to conflict with serialization/deserialization.
         resave:false,
         saveUninitialized: false,
         store,
@@ -64,7 +59,11 @@ app.get("/", (req,res) =>{
     res.redirect("/login")
 });
 app.get("/home", checkIfAuthenticated, (req,res) =>{
-        res.render("home", {books: []})
+   const user = req.session.passport.user.username
+        res.render("home", {
+            books: [],
+            currentUser: user
+        })
 });
 
 
@@ -72,6 +71,5 @@ app.get("/home", checkIfAuthenticated, (req,res) =>{
 //--------------------------------------------------------------
 
 app.listen(PORT, () => {
-    console.log(`My Books Client is listening on port ${PORT}`);
-    
+    console.log("server running.")
 });
