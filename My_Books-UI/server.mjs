@@ -2,6 +2,7 @@ import express from "express";
 import fetch from "node-fetch";
 import morgan from "morgan";
 import cors from "cors";
+import helmet from "helmet";
 import "./loadEnvironment.mjs";
 
 import session from "express-session";
@@ -23,6 +24,7 @@ const store = new session.MemoryStore();
 //------------------------------------------------------------------------------------------------
 //MIDDLEWARE:
 app.set('view engine', 'pug');
+app.use(helmet());
 app.use(cors());
 app.use(morgan("tiny"));
 app.use(express.json());
