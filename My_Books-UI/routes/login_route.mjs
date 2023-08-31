@@ -1,10 +1,14 @@
 import express from "express";
 import passport  from "passport";
 import { authMethods } from "../auth/auth.mjs";
+import { hashsingMethods } from "../auth/hash.mjs";
+import { utilityFunctions } from "../utils/utilityFunctions.mjs";
 
 const loginRouter = express.Router();
+const apikey = process.env.API_KEY;
 const { usePassportStrategy } = authMethods;
-
+const { hashPassword } = hashsingMethods;
+const { sanitizeInput } = utilityFunctions;
 
 //MiddleWare-----------------------------
 loginRouter.use(usePassportStrategy);
@@ -30,6 +34,28 @@ loginRouter.post("/",
         res.redirect("/home");
     }
 );
+
+//SIGNING UP:
+loginRouter.post("/signup", sanitizeInput, async(req,res) =>{
+    const newUser= req.body.username;
+    let newPassword = req.body.password;
+
+    //HASH password here:
+    const hashedPassword = await hashPassword(newPassword, 10);
+    const user = { username:newUser, password: hashedPassword };
+    const newuser = JSON.stringify(user)
+
+    const response = await fetch(`https://my-books-api-2v9z.onrender.com/user/adduser/${newuser}` ,{method:"POST", headers:{Authorization: apikey}})
+    
+    //log new user in as part of signup process:
+    req.login(user, (err)=>{
+      if(err){
+        return next(err)
+      }  
+      res.redirect("/home");
+    });
+});
+
 
 loginRouter.get("/logout", (req, res) =>{
     req.logout(function(err){

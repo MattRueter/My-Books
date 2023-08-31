@@ -24,7 +24,14 @@ const store = new session.MemoryStore();
 //------------------------------------------------------------------------------------------------
 //MIDDLEWARE:
 app.set('view engine', 'pug');
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy:{
+        directives:{
+            scriptSrc: ["'unsafe-inline'"],
+            scriptSrcAttr: ["'unsafe-inline'"]
+        }
+    }
+}));
 app.use(cors());
 app.use(morgan("tiny"));
 app.use(express.json());

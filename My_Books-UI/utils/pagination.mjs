@@ -47,15 +47,6 @@ function createCurrentPageMsg (currentPage, totalPages) {
 
 };
 
-function turnPage (pg) {
-    let page = pg 
-    let firstIndex = (page - 1) * itemsPerPage;
-    let lastIndex = firstIndex + itemsPerPage-1;
-    
-    showResults(data, firstIndex, lastIndex)
-    createCurrentPageMsg(page, getTotalPages(data))
-};
-
 
 
 
